@@ -10,8 +10,8 @@ from functools import lru_cache
 project_dir = pathlib.Path(__file__).resolve().parents[2]
 sys.path.append(str(project_dir))
 
-from avc_tool.vidgets.new_category_widget import generate_new_category
-from avc_tool.utils.generate_folder_structure import GenerateFolderStructure
+from src.vidgets.new_category_widget import generate_new_category
+from src.utils.generate_folder_structure import GenerateFolderStructure
 
 
 # ---------- CACHE IMAGE LIST ----------

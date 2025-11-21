@@ -1,15 +1,15 @@
 import streamlit as st 
 import pandas as pd 
-import matplotlib.pyplot as plt 
+#import matplotlib.pyplot as plt 
 import pathlib 
 import sys 
-import cv2
+#import cv2
 import os
 import pathlib
 import warnings
 from glob import glob
-import torch
-from streamlit_drawable_canvas import st_canvas
+#import torch
+#from streamlit_drawable_canvas import st_canvas
 from PIL import Image, ImageDraw
 
 #project_dir = pathlib.Path(__file__).resolve().parent
@@ -18,10 +18,9 @@ project_dir = pathlib.Path(__file__).resolve().parents[1]
 sys.path.append(str(project_dir))
 
 
-from avc_tool.vidgets.filtering_vidgets import generate_filtering_vidgets
-from avc_tool.vidgets.good_bad_labelling_widget import good_bad_labelling
+from src.vidgets.filtering_vidgets import generate_filtering_vidgets
+from src.vidgets.good_bad_labelling_widget import good_bad_labelling
 #from avc_tool.utils.generate_folder_structure import GenerateFolderStructure
-
 
 
 
