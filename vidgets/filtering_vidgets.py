@@ -1,0 +1,33 @@
+import streamlit as st 
+import pandas as pd 
+import numpy as pd 
+import pathlib, sys, os
+from tkinter import Tk, filedialog
+
+project_dir = pathlib.Path(__file__).resolve().parents[1]
+sys.path.append(str(project_dir))
+#from container_mask_vidgets.folder_path_selection import folder_picker
+
+
+def generate_filtering_vidgets():
+    
+    with st.sidebar:
+    
+        st.sidebar.markdown("---")
+        source_images_path = st.text_area("Enter images folder path:",
+                                   value = "/mnt/nas/Projects/CertAIn/AVC_data_labelling/sam_masked_images")
+        """num_images = st.number_input("Number of images: ",
+                                     min_value=0,
+                                     max_value=10000,
+                                     value = 3000, 
+                                     step=1,
+                                     format="%d")"""
+        dest_images_root_path = st.text_area("dest folder path: ", 
+                                    "/mnt/nas/Projects/CertAIn/AVC_data_labelling/classified_images")
+        
+        
+        st.sidebar.markdown("---")
+
+            
+
+        return source_images_path, dest_images_root_path
