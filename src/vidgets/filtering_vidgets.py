@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd 
 import numpy as pd 
 import pathlib, sys, os
-from tkinter import Tk, filedialog
+#from tkinter import Tk, filedialog
 
 project_dir = pathlib.Path(__file__).resolve().parents[1]
 sys.path.append(str(project_dir))

@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd 
 import numpy as pd 
 import pathlib, sys, os, shutil
-from tkinter import Tk, filedialog
+#from tkinter import Tk, filedialog
 import os
 from PIL import Image
 from functools import lru_cache
