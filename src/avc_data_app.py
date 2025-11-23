@@ -11,6 +11,8 @@ from glob import glob
 #import torch
 #from streamlit_drawable_canvas import st_canvas
 from PIL import Image, ImageDraw
+import tkinter as tk
+from tkinter import filedialog
 
 #project_dir = pathlib.Path(__file__).resolve().parent
 project_dir = pathlib.Path(__file__).resolve().parents[1]
@@ -28,6 +30,13 @@ from src.vidgets.good_bad_labelling_widget import good_bad_labelling
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
+
+# This function opens a folder browser
+def pick_folder():
+    root = tk.Tk()
+    root.withdraw()
+    folder_selected = filedialog.askdirectory()
+    return folder_selected
 
 
 def generate_optical_flow_sam_main():
@@ -52,12 +61,7 @@ def generate_optical_flow_sam_main():
 
         
         
-            
- 
-
- 
-
-    
+        
     
 if __name__ == "__main__":
     generate_optical_flow_sam_main()
