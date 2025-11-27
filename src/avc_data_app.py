@@ -12,7 +12,7 @@ from glob import glob
 #from streamlit_drawable_canvas import st_canvas
 from PIL import Image, ImageDraw
 #import tkinter as tk
-from tkinter import filedialog
+#from tkinter import filedialog
 
 #project_dir = pathlib.Path(__file__).resolve().parent
 project_dir = pathlib.Path(__file__).resolve().parents[1]
