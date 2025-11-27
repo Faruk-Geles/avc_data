@@ -2,21 +2,15 @@ import streamlit as st
 import pandas as pd 
 import numpy as pd 
 import pathlib, sys, os
-from tkinter import Tk, filedialog
+
 import tkinter.font as tkFont
+from tkinter import Tk, filedialog
+import tkinter as tk
 
 project_dir = pathlib.Path(__file__).resolve().parents[1]
 sys.path.append(str(project_dir))
 #from container_mask_vidgets.folder_path_selection import folder_picker
 
-import streamlit as st
-from tkinter import Tk, filedialog
-
-
-import streamlit as st
-import tkinter as tk
-from tkinter import ttk, filedialog
-import os
  
 def browse_folder():
     
@@ -32,7 +26,7 @@ def browse_folder():
     custom_font = ("Arial", 14)
     
     # Create a frame with larger elements
-    frame = ttk.Frame(dialog, padding="10")
+    frame = tk.Frame(dialog, padding="10")
     frame.pack(fill=tk.BOTH, expand=True)
     
     # Use standard file dialog (will still be limited in customization)
@@ -122,12 +116,7 @@ def generate_filtering_vidgets():
         st.sidebar.markdown("---")
         #source_images_path = st.text_area("Enter images folder path:",
         #                           value = "/mnt/nas/Projects/CertAIn/AVC_data_labelling/sam_masked_images")
-        """num_images = st.number_input("Number of images: ",
-                                     min_value=0,
-                                     max_value=10000,
-                                     value = 3000, 
-                                     step=1,
-                                     format="%d")"""
+
         #dest_images_root_path = st.text_area("dest folder path: ", 
         #                            "/mnt/nas/Projects/CertAIn/AVC_data_labelling/classified_images")
         

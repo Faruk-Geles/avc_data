@@ -20,7 +20,7 @@ project_dir = pathlib.Path(__file__).resolve().parents[1]
 sys.path.append(str(project_dir))
 
 
-from src.vidgets.filtering_vidgets import generate_filtering_vidgets
+from src.vidgets.filtering_vidget2 import generate_filtering_vidgets
 from src.vidgets.good_bad_labelling_widget import good_bad_labelling
 #from avc_tool.utils.generate_folder_structure import GenerateFolderStructure
 
