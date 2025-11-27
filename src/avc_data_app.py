@@ -11,7 +11,7 @@ from glob import glob
 #import torch
 #from streamlit_drawable_canvas import st_canvas
 from PIL import Image, ImageDraw
-import tkinter as tk
+#import tkinter as tk
 from tkinter import filedialog
 
 #project_dir = pathlib.Path(__file__).resolve().parent
