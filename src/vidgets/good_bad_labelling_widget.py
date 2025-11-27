@@ -28,6 +28,14 @@ def load_thumbnail(path, size):
     return img
 
 
+def safe_output_folder(subfolder):
+    base = "/mnt/nas/Projects/CertAIn/AVC_data_labelling"
+    path = os.path.join(base, subfolder)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+
 # ===========================================================
 #                     MAIN LABELING FUNCTION
 # ===========================================================
@@ -35,7 +43,7 @@ def load_thumbnail(path, size):
 def good_bad_labelling(source_images_folder, dest_images_root_path):
 
     # ----------------- FIX: ENSURE BASE DIR EXISTS -----------------
-    os.makedirs(dest_images_root_path, exist_ok=True)
+    #os.makedirs(dest_images_root_path, exist_ok=True)
 
     # ----------------- CREATE DEFAULT CATEGORY DIRECTORIES ----------
     directory_list = os.listdir(dest_images_root_path)
@@ -43,7 +51,7 @@ def good_bad_labelling(source_images_folder, dest_images_root_path):
     # ----------------- CREATE NEW CATEGORY (WIDGET) -----------------
     new_folder_name, new_button_name, new_folder_path = generate_new_category(dest_images_root_path)
 
-    genfolder = GenerateFolderStructure(root_folder=dest_images_root_path)
+    genfolder = GenerateFolderStructure()#root_folder=dest_images_root_path)
     genfolder.generate_folders()
 
     if new_folder_path:

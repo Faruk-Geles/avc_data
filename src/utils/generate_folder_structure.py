@@ -1,20 +1,35 @@
 import os 
 import numpy as np 
 
+import os
+import tempfile
+
+
+
+
 class GenerateFolderStructure:
     
-    def __init__(self, root_folder):
-        self.root_folder = root_folder
+    def __init__(self):
+        #self.root_folder = root_folder
         pass
+        
+    def safe_output_folder(self, subfolder="classified_images"):
+        base = "/mnt/nas/Projects/CertAIn/AVC_data_labelling"
+        path = os.path.join(base, subfolder)
+        os.makedirs(path, exist_ok=True)
+        return path
     
     def generate_folders(self): 
         #folder_path = self.root_folder #os.path.join(self.root_folder, folder_name)
-        if not os.path.exists(self.root_folder):
-            os.makedirs(self.root_folder)
+        #if not os.path.exists(self.root_folder):
+        #    os.makedirs(self.root_folder)
               
-        classified_images_path = self.root_folder #os.path.join(folder_path, "classified_images")
+        #classified_images_path = self.root_folder #os.path.join(folder_path, "classified_images")
         #if not os.path.exists(classified_images_path):
         #    os.makedirs(classified_images_path)
+        classified_images_path = self.safe_output_folder("classified_images")
+        
+        
         hard_plast = os.path.join(classified_images_path, "hard_plast")
         wood = os.path.join(classified_images_path, "wood")
         treated_wood = os.path.join(classified_images_path, "treated_wood")
