@@ -1,5 +1,5 @@
 import streamlit as st 
-import pandas as pd 
+#import pandas as pd 
 #import matplotlib.pyplot as plt 
 import pathlib 
 import sys 
@@ -10,9 +10,15 @@ import warnings
 from glob import glob
 #import torch
 #from streamlit_drawable_canvas import st_canvas
-from PIL import Image, ImageDraw
+#from PIL import Image, ImageDraw
 #import tkinter as tk
 #from tkinter import filedialog
+from pathlib import Path
+
+
+
+
+
 
 #project_dir = pathlib.Path(__file__).resolve().parent
 project_dir = pathlib.Path(__file__).resolve().parents[1]
@@ -20,8 +26,8 @@ project_dir = pathlib.Path(__file__).resolve().parents[1]
 sys.path.append(str(project_dir))
 
 
-from src.vidgets.filtering_vidget2 import generate_filtering_vidgets
-from src.vidgets.good_bad_labelling_widget import good_bad_labelling
+from src.vidgets.filtering_vidgets import generate_filtering_vidgets
+from src.vidgets.good_bad_labelling_widget5 import good_bad_labelling
 #from avc_tool.utils.generate_folder_structure import GenerateFolderStructure
 
 
@@ -44,16 +50,32 @@ def generate_optical_flow_sam_main():
     st.sidebar.title('Navigation')
     options = st.sidebar.radio('Pages',
                                options = [
-                               'extract_subset_filtering model',])
+                               'Image Sorting App',])
     
     
-    if options == 'extract_subset_filtering model':
+    if options == 'Image Sorting App':
         
-        source_images_path, dest_images_root_path = generate_filtering_vidgets()
+        #source_images_path, dest_images_root_path = generate_filtering_vidgets()
         #genfolder = GenerateFolderStructure(root_folder=dest_images_root_path)
         #genfolder.generate_folders()
-        
-        good_bad_labelling(source_images_path, dest_images_root_path)   
+        with st.sidebar:
+            source_images_root_path = Path("/home/faruk/PROJECTS/CERTAIN_PROJECT/data/Kungsbacka_v20_originals_squared")
+            # Get only subfolders
+            orig_mages_path = Path("/home/faruk/PROJECTS/CERTAIN_PROJECT/data/Kungsbacka_images")
+            
+            
+            class_folders = [f.name for f in source_images_root_path.iterdir() if f.is_dir()]
+
+            if not class_folders:
+                source_images_path = source_images_root_path
+            else:
+                selected_class = st.selectbox("Choose a folder:", class_folders)
+                
+                source_images_path = os.path.join(source_images_root_path, selected_class)
+            
+            dest_images_root_path = "/mnt/nas/Projects/CertAIn/AVC_data_labelling/classified_images"
+            
+        good_bad_labelling(orig_mages_path,source_images_path, dest_images_root_path)   
         
         
 

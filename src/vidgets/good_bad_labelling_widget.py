@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd 
 import numpy as pd 
 import pathlib, sys, os, shutil
-#from tkinter import Tk, filedialog
+from tkinter import Tk, filedialog
 import os
 from PIL import Image
 from functools import lru_cache
@@ -21,19 +21,17 @@ def get_images_list(source_images_folder):
 
 
 # ---------- CACHE THUMBNAILS ----------
+
 @lru_cache(maxsize=256)
 def load_thumbnail(path, size):
-    img = Image.open(path)
-    img.thumbnail((size, size))
-    return img
-
-
-def safe_output_folder(subfolder):
-    base = "/mnt/nas/Projects/CertAIn/AVC_data_labelling"
-    path = os.path.join(base, subfolder)
-    os.makedirs(path, exist_ok=True)
-    return path
-
+    try:
+        img = Image.open(path)
+        img.verify()   # check if corrupted
+        img = Image.open(path)  # reopen for actual processing
+        img.thumbnail((size, size))
+        return img
+    except Exception:
+        return None
 
 
 # ===========================================================
@@ -43,7 +41,7 @@ def safe_output_folder(subfolder):
 def good_bad_labelling(source_images_folder, dest_images_root_path):
 
     # ----------------- FIX: ENSURE BASE DIR EXISTS -----------------
-    #os.makedirs(dest_images_root_path, exist_ok=True)
+    os.makedirs(dest_images_root_path, exist_ok=True)
 
     # ----------------- CREATE DEFAULT CATEGORY DIRECTORIES ----------
     directory_list = os.listdir(dest_images_root_path)
@@ -51,7 +49,7 @@ def good_bad_labelling(source_images_folder, dest_images_root_path):
     # ----------------- CREATE NEW CATEGORY (WIDGET) -----------------
     new_folder_name, new_button_name, new_folder_path = generate_new_category(dest_images_root_path)
 
-    genfolder = GenerateFolderStructure()#root_folder=dest_images_root_path)
+    genfolder = GenerateFolderStructure(root_folder=dest_images_root_path)
     genfolder.generate_folders()
 
     if new_folder_path:
@@ -71,35 +69,115 @@ def good_bad_labelling(source_images_folder, dest_images_root_path):
 
     # ----------------- DISPLAY IMAGE -----------------
     size = st.sidebar.slider("Image width (px)", 100, 1000, 800)
-    img = load_thumbnail(img_path, size)
+    #img = load_thumbnail(img_path, size)
+    #st.image(img, caption=f"Image {st.session_state.index + 1}")
+    
+    img = load_thumbnail(str(img_path), size)
+    # If image is corrupted → skip to next one
+    if img is None:
+        st.warning(f"⚠️ Image corrupted or unreadable: {img_path.name}. Skipping…")
+        st.session_state.index += 1
+        st.rerun()
+
+    # Display image normally
     st.image(img, caption=f"Image {st.session_state.index + 1}")
 
     # ===========================================================
     #                 FIXED CATEGORY BUTTONS
     # ===========================================================
+    
 
-    col1, col2, col3 = st.columns(3)
+
+
+    # Initialize index
+    if "index" not in st.session_state:
+        st.session_state.index = 0
+
+    #st.write(f"Current index: {st.session_state.index}")
+
+    cols_per_row = 4  # 8 buttons per row
+
+    for i in range(0, len(directory_list), cols_per_row):
+        cols = st.columns(cols_per_row)
+
+        for j in range(cols_per_row):
+            idx = i + j
+            if idx < len(directory_list):
+
+                dir_name = directory_list[idx]
+
+                # CREATE BUTTON IN GRID
+                if cols[j].button(dir_name, key=f"btn_{idx}"):
+
+                    # CREATE TARGET FOLDER if not exists
+                    target_dir = os.path.join(dest_images_root_path, dir_name)
+                    os.makedirs(target_dir, exist_ok=True)
+
+                    # MOVE IMAGE
+                    shutil.move(img_path, target_dir)
+
+                    # INCREMENT INDEX
+                    st.session_state.index += 1
+
+                    # RERUN APP
+                    st.rerun()
+
+
+    
+    
+    
+    
+    
+
+    """col1, col2, col3, col4, col5,col6 = st.columns(6)
 
     with col1:
-        for dir in directory_list[0:4]:
+        for dir in directory_list[0:6]:
             if st.button(dir):
                 shutil.move(img_path, os.path.join(dest_images_root_path,dir))
                 st.session_state.index += 1
                 st.rerun()
 
     with col2:
-        for dir in directory_list[4:8]:
+        for dir in directory_list[6:12]:
             if st.button(dir):
                 shutil.move(img_path, os.path.join(dest_images_root_path,dir))
                 st.session_state.index += 1
                 st.rerun()
 
     with col3:
-        for dir in directory_list[8:12]:
+        for dir in directory_list[12:18]:
             if st.button(dir):
                 shutil.move(img_path, os.path.join(dest_images_root_path,dir))
                 st.session_state.index += 1
                 st.rerun()
+                
+    with col4:
+        for dir in directory_list[18:24]:
+            if st.button(dir):
+                shutil.move(img_path, os.path.join(dest_images_root_path,dir))
+                st.session_state.index += 1
+                st.rerun()
+                
+    with col5:
+        for dir in directory_list[24:30]:
+            if st.button(dir):
+                shutil.move(img_path, os.path.join(dest_images_root_path,dir))
+                st.session_state.index += 1
+                st.rerun()
+                
+    with col6:
+        for dir in directory_list[30:32]:
+            if st.button(dir):
+                shutil.move(img_path, os.path.join(dest_images_root_path,dir))
+                st.session_state.index += 1
+                st.rerun()
+                
+    """
+                
+
+                
+
 
   
 
@@ -146,7 +224,7 @@ def good_bad_labelling(source_images_folder, dest_images_root_path):
 
             # place button inside the correct column
             with cols[col_index]:
-                if st.button(button_label):
+                if st.button(button_label, key=f"dup_btn_{col_index}"):
                     shutil.move(img_path, folder_path)
                     st.session_state.index += 1
                     st.rerun()

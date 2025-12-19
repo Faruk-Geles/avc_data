@@ -6,6 +6,7 @@ import pathlib, sys, os
 import tkinter.font as tkFont
 from tkinter import Tk, filedialog
 import tkinter as tk
+from tkinter import ttk
 
 project_dir = pathlib.Path(__file__).resolve().parents[1]
 sys.path.append(str(project_dir))
@@ -26,7 +27,7 @@ def browse_folder():
     custom_font = ("Arial", 14)
     
     # Create a frame with larger elements
-    frame = tk.Frame(dialog, padding="10")
+    frame = ttk.Frame(dialog, padding="10")
     frame.pack(fill=tk.BOTH, expand=True)
     
     # Use standard file dialog (will still be limited in customization)
@@ -78,7 +79,7 @@ def generate_filtering_vidgets():
         if 'selected_path_1' not in st.session_state:
             st.session_state.selected_path_1 = "/home/faruk/GITHUB/avc_data/test_data/source_images"
         if 'selected_path_2' not in st.session_state:
-            st.session_state.selected_path_2 = "/home/faruk/GITHUB/avc_data/test_data/classified_images"
+            st.session_state.selected_path_2 = "/mnt/nas/Projects/CertAIn/AVC_data_labelling/classified_images"
         
         
         
@@ -116,7 +117,12 @@ def generate_filtering_vidgets():
         st.sidebar.markdown("---")
         #source_images_path = st.text_area("Enter images folder path:",
         #                           value = "/mnt/nas/Projects/CertAIn/AVC_data_labelling/sam_masked_images")
-
+        """num_images = st.number_input("Number of images: ",
+                                     min_value=0,
+                                     max_value=10000,
+                                     value = 3000, 
+                                     step=1,
+                                     format="%d")"""
         #dest_images_root_path = st.text_area("dest folder path: ", 
         #                            "/mnt/nas/Projects/CertAIn/AVC_data_labelling/classified_images")
         
